@@ -9,4 +9,3 @@
     Como o banco faz para chegar ao `tronco` de uma dada palavra? É uma tabela auxiliar ou uma espécie de regex que faz um match parcial?
 
  - Como é definido o score medido pelo `$meta textScore` (parâmetro de ordenação que poder ser usado numa query por text)?
-
