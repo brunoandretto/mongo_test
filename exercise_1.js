@@ -172,7 +172,9 @@ var reaction = db.posts.find(
 
 //// Find by reaction ID
 var reaction = db.posts.find(
-  {},
+  {
+    _id: post.insertedId
+  },
   {
     "reactions": {
       $elemMatch: {
@@ -240,8 +242,77 @@ db.posts.update(
         "content": "My first comment!!!",
         "createdAt": new Date(),
         "updatedAt": new Date(),
-        "deleted": false,
+        "deleted": false
       }
     }
+  }
+)
+
+// Find
+//// Find many by post ID and comment author ID
+var comments = db.posts.find(
+  {
+    _id: post.insertedId,
+    "comments": {
+      $elemMatch: {
+        author: user.insertedId
+      }
+    }
+  }
+)[0].comments
+
+//// Find one by comment ID
+var comment = db.posts.find(
+  {
+    _id: post.insertedId
+  },
+  {
+    "comments": {
+      $elemMatch: {
+        _id: comment._id
+      }
+    }
+  }
+)[0].comments[0]
+
+// Update
+db.posts.findOneAndUpdate(
+  {
+    _id: post.insertedId
+  },
+  {
+    $set: {
+      "comments.$[elem].content": "I had to edit my first comment!",
+      "comments.$[elem].updatedAt": new Date()
+    }
+  },
+  {
+    arrayFilters: [
+      {
+        "elem._id": comment.insertedId
+      }
+    ],
+    upsert: true
+  }
+)
+
+// Delete
+db.posts.findOneAndUpdate(
+  {
+    _id: post.insertedId
+  },
+  {
+    $set: {
+      "comments.$[elem].deleted": true,
+      "comments.$[elem].updatedAt": new Date()
+    }
+  },
+  {
+    arrayFilters: [
+      {
+        "elem._id": comment.insertedId
+      }
+    ],
+    upsert: true
   }
 )
