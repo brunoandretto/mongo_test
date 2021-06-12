@@ -1,11 +1,12 @@
 {
-    "version": "1.0.0",
-    "main": "app.js",
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-        "koa": "^2.13.1",
-        "mongodb": "^3.6.6"
-    }
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "seed": "node migrations/seed.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "koa": "^2.13.1",
+    "mongodb": "^3.6.9"
+  }
 }

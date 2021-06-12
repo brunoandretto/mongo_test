@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    restart: always
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongo_test_db
+    entrypoint: /app/scripts/entrypoint.sh
+  mongo_test_db:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+volumes:
+  mongodb:
