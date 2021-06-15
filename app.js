@@ -10,23 +10,24 @@ async function findPost() {
     const database = client.db('mongo_test');
     const posts = database.collection('posts');
     const query = { title: 'Post inicial' };
-    return await posts.findOne(query);
+    const result = await posts.findOne(query);
+    return result ? result : {};
   }).catch((error) => {
-    console.log('##### Exception caught at findPost: #####')
-    console.log(error)
-    return { code: 500, message: "Internal Server Error" }
+    console.log('##### Exception caught at findPost: #####');
+    console.log(error);
+    return { code: 500, message: "Internal Server Error" };
   })
 }
 
 app.use(async (ctx, next) => {
   ctx.body = await findPost();
-  await next()
+  await next();
 });
 
 app.listen(3000, () => console.log('Server running at http://localhost:3000'));
 
 process.on('exit', () => {
-  client.close()
+  client.close();
 })
 
-console.log('#################### Ended app script. ####################')
+console.log('#################### Ended app script. ####################');

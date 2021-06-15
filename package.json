@@ -3,10 +3,13 @@
   "main": "app.js",
   "scripts": {
     "seed": "node migrations/seed.js",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "koa": "^2.13.1",
     "mongodb": "^3.6.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
