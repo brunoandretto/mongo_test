@@ -1,33 +1,26 @@
-const { MongoClient } = require("mongodb");
+const bodyParser = require('koa-bodyparser');
 const Koa = require('koa');
+const routes = require('./middlewares/routes.js');
 
-const URI = "mongodb://mongo_test_user:super_secure_passw0rd@mongo_test_db:27017/mongo_test";
-const client = new MongoClient(URI, { useUnifiedTopology: true });
 const app = new Koa();
-
-async function findPost() {
-  return client.connect().then(async () => {
-    const database = client.db('mongo_test');
-    const posts = database.collection('posts');
-    const query = { title: 'Post inicial' };
-    const result = await posts.findOne(query);
-    return result ? result : {};
-  }).catch((error) => {
-    console.log('##### Exception caught at findPost: #####');
-    console.log(error);
-    return { code: 500, message: "Internal Server Error" };
-  })
-}
-
+app.use(bodyParser());
 app.use(async (ctx, next) => {
-  ctx.body = await findPost();
+  const queryString = ctx.request.querystring ? ctx.request.querystring : '';
+  const path = ctx.request.path ? ctx.request.path : '/';
+  const body = ctx.request.body ? ctx.request.body : {};
+  const method = ctx.request.method
+
+  if (typeof routes[method] !== 'function') {
+    ctx.response.status = 405;
+    ctx.body = {};
+    return;
+  }
+
+  var result = await routes[method](path, queryString, body);
+  ctx.response.status = result ? 200 : 404;
+  ctx.body = result ? result : {};
+
   await next();
 });
 
 app.listen(3000, () => console.log('Server running at http://localhost:3000'));
-
-process.on('exit', () => {
-  client.close();
-})
-
-console.log('#################### Ended app script. ####################');
