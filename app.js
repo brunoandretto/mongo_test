@@ -17,8 +17,8 @@ app.use(async (ctx, next) => {
   }
 
   var result = await routes[method](path, queryString, body);
-  ctx.response.status = result ? 200 : 404;
-  ctx.body = result ? result : {};
+  ctx.response.status = result ? result['code'] : 404;
+  ctx.body = result ? result['body'] : {};
 
   await next();
 });
