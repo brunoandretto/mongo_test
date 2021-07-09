@@ -1,1 +1,1 @@
-exports.postController = require('./postController.js');
+exports.postController = require('./post.js');
