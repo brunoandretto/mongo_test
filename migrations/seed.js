@@ -11,7 +11,7 @@ const client = new MongoClient(DB_URI);
 // const db = Object.keys(dbSync).reduce((obj, key) => ({ ...obj, [key]: (...args) => new Promise((res, rej) => dbSync[key](...args, (err, result) => err ? reject(err) : resolve(result))) }), {})
 // await db.addUser('mongo_test_user', 'super_secure_passw0rd')
 
-async function createUser() {
+function createUser() {
   const db = client.db(DB_NAME)
   return db.addUser('mongo_test_user', 'super_secure_passw0rd', {
     roles: [{ role: 'readWrite', db: DB_NAME }]

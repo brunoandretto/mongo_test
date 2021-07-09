@@ -1,13 +1,13 @@
 const idValidator = require('./validators/id.js');
 const postRepository = require('../repository/post.js');
 
-exports.findPostById = async function (path, ...ignore) {
+exports.findPostById = function (path, ...ignore) {
   const id = path.split('/')[2].toLowerCase();
   if (!idValidator.validObjectId(id)) {
     return {code: 400, body: {message: 'Invalid parameters' }};
   }
   return postRepository.findPostById(id)
-    .then(async (result) => {
+    .then((result) => {
       if (result) {
         return {code: 200, body: result}
       }
