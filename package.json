@@ -3,7 +3,7 @@
   "main": "app.js",
   "scripts": {
     "seed": "node migrations/seed.js",
-    "start": "nodemon app.js",
+    "start": "nodemon mongo_test_backend/app.js",
     "test": "jest"
   },
   "dependencies": {

@@ -1,8 +1,8 @@
-const postController = require('../../controllers/post.js');
+const postController = require('../../mongo_test_backend/controllers/post.js');
 const postFixture = require('../fixtures/post.json');
-const postRepository = require('../../repository/post.js');
+const postRepository = require('../../mongo_test_backend/repository/post.js');
 
-jest.mock('../../repository/post.js')
+jest.mock('../../mongo_test_backend/repository/post.js')
 
 describe('findPostById', () => {
   test('returns bad request response if invalid parameters', () => {
