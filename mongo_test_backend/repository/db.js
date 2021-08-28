@@ -1,8 +1,13 @@
 const { MongoClient } = require('mongodb');
 
-const DB_NAME = 'mongo_test'
-const URI = `mongodb://mongo_test_user:super_secure_passw0rd@mongo_test_db:27017/${DB_NAME}`;
-const client = new MongoClient(URI, { useUnifiedTopology: true });
+const DB_USERNAME = process.env.DB_USERNAME
+const DB_HOST = process.env.DB_HOST
+const DB_PORT = process.env.DB_PORT
+const DB_NAME = process.env.DB_NAME
+const client = new MongoClient(
+  `mongodb://${DB_USERNAME}:${process.env.DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+  { useUnifiedTopology: true }
+);
 
 module.exports = class Database {
   static name = DB_NAME

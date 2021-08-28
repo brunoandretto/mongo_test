@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const DB_URI = "mongodb://mongo_test_db:27017"
-const DB_NAME = "mongo_test"
+const DB_URI = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`
 const client = new MongoClient(DB_URI);
 
 // const db = mongo(DB_URI)
@@ -12,12 +11,13 @@ const client = new MongoClient(DB_URI);
 // await db.addUser('mongo_test_user', 'super_secure_passw0rd')
 
 function createUser() {
-  const db = client.db(DB_NAME)
-  return db.addUser('mongo_test_user', 'super_secure_passw0rd', {
-    roles: [{ role: 'readWrite', db: DB_NAME }]
+  const db = client.db(process.env.DB_NAME)
+  return db.addUser(process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+    roles: [{ role: 'readWrite', db: process.env.DB_NAME }]
   }).then((result) => {
     console.log('result', result)
     console.log('User created!')
+    process.exit(0)
   }).catch((error) => {
     if (error['code'] !== 51003) {
       throw error
