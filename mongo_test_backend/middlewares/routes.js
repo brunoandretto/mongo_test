@@ -2,7 +2,7 @@ const controllers = require('../controllers');
 
 const getRoutes = new Map([
   // Health Check
-  [/^\/$/, function () { return { code: 200 } }],
+  [/^\/$/, function () { return { code: 200 }; }],
 
   // Posts routes:
   [/^\/post\/[a-zA-Z0-9]+\/?$/, controllers.postController.findPostById],

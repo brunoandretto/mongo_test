@@ -2,7 +2,7 @@ const postController = require('../../../controllers/post.js');
 const postFixture = require('../fixtures/post.json');
 const postRepository = require('../../../repository/post.js');
 
-jest.mock('../../../repository/post.js')
+jest.mock('../../../repository/post.js');
 
 describe('findPostById', () => {
   describe('when invalid parameters', () => {
@@ -49,7 +49,7 @@ describe('findPostById', () => {
     test('returns internal error response', () => {
       const id = '60c4f8e061f566c252bd3ef4';
       const input = `/post/${id}`;
-      const mockResult = Promise.reject(new Error('Error!'))
+      const mockResult = Promise.reject(new Error('Error!'));
       postRepository.findPostById.mockResolvedValue(mockResult);
       const expectedResult = {code: 500, body: {message: 'Internal Server Error'}};
 
