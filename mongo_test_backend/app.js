@@ -8,7 +8,7 @@ app.use(async (ctx, next) => {
   const queryString = ctx.request.querystring ? ctx.request.querystring : '';
   const path = ctx.request.path ? ctx.request.path : '/';
   const body = ctx.request.body ? ctx.request.body : {};
-  const method = ctx.request.method
+  const method = ctx.request.method;
 
   if (typeof routes[method] !== 'function') {
     ctx.response.status = 405;

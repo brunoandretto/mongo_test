@@ -1,12 +1,12 @@
 module.exports = class DatabaseCleaner {
   static dropCollections(Database) {
-    let database
+    let database;
     return Database.instance()
       .then((client) => {
         return client.db(Database.name);
       })
       .then((db) => {
-        database = db
+        database = db;
         return db.listCollections().toArray();
       })
       .then((collections) => {
@@ -19,4 +19,4 @@ module.exports = class DatabaseCleaner {
         console.log(`Could not delete collections: ${error}`);
       });
   }
-}
+};
