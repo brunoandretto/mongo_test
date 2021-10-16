@@ -59,3 +59,52 @@ describe('findPostById', () => {
     });
   });
 });
+
+describe('createPost', () => {
+  describe('when invalid parameters', () => {
+    test('returns bad request response', () => {
+      const input = {'test': 'invalid'};
+      const expectedResult = {code: 400, body: {message: 'Invalid parameters'}};
+
+      const result = postController.createPost(null, null, input);
+
+      expect(result).toStrictEqual(expectedResult);
+    });
+  });
+
+  describe('when valid payload', () => {
+    test('returns ok response', () => {
+      const input = {
+        'title': 'Test title',
+        'short_description': 'Test short description!',
+        'content': 'Test content.',
+        'test': 'should not be in response'
+      };
+      const mockResult = Promise.resolve(postFixture);
+      postRepository.createPost.mockResolvedValue(mockResult);
+      const expectedResult = {code: 201, body: postFixture};
+
+      return postController.createPost(null, null, input).then((result) => {
+        expect(result).toStrictEqual(expectedResult);
+      });
+    });
+  });
+
+  describe('when exception is raised', () => {
+    test('returns internal error response', () => {
+      const input = {
+        'title': 'Test title',
+        'short_description': 'Test short description!',
+        'content': 'Test content.'
+      };
+      const mockResult = Promise.reject(new Error('Error!'));
+      postRepository.createPost.mockResolvedValue(mockResult);
+      const expectedResult = {code: 500, body: {message: 'Internal Server Error'}};
+
+      return postController.createPost(null, null, input).then((result) => {
+        expect(result).toStrictEqual(expectedResult);
+      });
+    });
+  });
+});
+

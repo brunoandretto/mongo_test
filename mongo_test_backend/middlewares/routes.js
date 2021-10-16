@@ -8,9 +8,22 @@ const getRoutes = new Map([
   [/^\/post\/[a-zA-Z0-9]+\/?$/, controllers.postController.findPostById],
 ]);
 
+const postRoutes = new Map([
+  // Posts routes:
+  [/^\/post\/?$/, controllers.postController.createPost],
+]);
+
+
 module.exports = {
   GET: async function (path, queryString, body) {
     for (var [key, value] of getRoutes) {
+      if (key.test(path)) {
+        return await value(path, queryString, body);
+      }
+    }
+  },
+  POST: async function (path, queryString, body) {
+    for (var [key, value] of postRoutes) {
       if (key.test(path)) {
         return await value(path, queryString, body);
       }

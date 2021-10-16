@@ -14,9 +14,11 @@ describe('findPostById', () => {
       const id = '60c4f8e061f566c252bd3ef4';
       const post = {
         '_id': new ObjectId(id),
-        'name': 'Jonas',
-        'document': '0123456789',
-        'birthdate': new Date('1991-05-24T00:00:00Z000'),
+        'title': 'Test title',
+        'short_description': 'Test description',
+        'content': 'Test content',
+        'reactions': [],
+        'comments': [],
         'createdAt': new Date(),
         'updatedAt': new Date(),
         'deleted': false,
@@ -40,6 +42,31 @@ describe('findPostById', () => {
       return postRepository.findPostById(id).then((result) => {
         expect(result).toStrictEqual(null);
       });
+    });
+  });
+});
+
+describe('createPost', () => {
+  beforeEach(async () => {
+    await DatabaseCleaner.dropCollections(Database);
+  });
+
+  test('returns created object', () => {
+    const input = {
+      'title': 'Test title',
+      'short_description': 'Test description',
+      'content': 'Test content',
+      'reactions': [],
+      'comments': [],
+      'createdAt': new Date(),
+      'updatedAt': new Date(),
+      'deleted': false,
+    };
+
+    // The mongo db adapter 'insertOne' method mutates the original input object.
+    // That's why we can simply compare it to the returning result (it adds the _id by itself)
+    return postRepository.createPost(input).then((result) => {
+      expect(input).toStrictEqual(result);
     });
   });
 });
