@@ -1,9 +1,11 @@
+const { MissingRequiredFieldsException } = require('../../exception.js');
+
 const MANDATORY_FIELDS = ['title', 'short_description', 'content'];
 
 exports.validPost = function (body) {
   const fields = (({ title, short_description, content }) => ({ title, short_description, content }))(body);
-  if (!hasMandatoryFields(fields)) {
-    return false;
+  if (!MANDATORY_FIELDS.every(key => fields[key])) {
+    throw new MissingRequiredFieldsException;
   }
 
   const defaultFields = {
@@ -15,7 +17,3 @@ exports.validPost = function (body) {
   };
   return {...fields, ...defaultFields};
 };
-
-function hasMandatoryFields(body) {
-  return MANDATORY_FIELDS.every(key => body[key]);
-}

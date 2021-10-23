@@ -11,6 +11,9 @@ const getRoutes = new Map([
 const postRoutes = new Map([
   // Posts routes:
   [/^\/post\/?$/, controllers.postController.createPost],
+
+  // Users routes:
+  [/^\/user\/?$/, controllers.userController.createUser],
 ]);
 
 

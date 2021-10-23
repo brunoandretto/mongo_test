@@ -1,44 +1,49 @@
 const idValidator = require('./validator/id.js');
 const postValidator = require('./validator/post.js');
 const postRepository = require('../repository/post.js');
+const response = require('./response.js');
+const { MissingRequiredFieldsException, InvalidIdException } = require('../exception.js');
 
 exports.findPostById = function (path) {
-  const id = path.split('/')[2].toLowerCase();
-  if (!idValidator.validObjectId(id)) {
-    return badRequestResponse();
-  }
-  return postRepository.findPostById(id)
-    .then((result) => {
-      if (result) {
-        return {code: 200, body: result};
-      }
-      return {code: 404, body: {message: 'Post not found'}};
-    }).catch((error) => {
-      console.log('##### Exception caught at findPostById: #####');
+  try {
+    const id = path.split('/')[2].toLowerCase();
+    idValidator.validObjectId(id);
+    return postRepository.findPostById(id)
+      .then((result) => {
+        if (result) {
+          return response.ok(result);
+        }
+        return response.notFound();
+      }).catch((error) => {
+        console.log(error);
+        return response.internalServerError();
+      });
+  } catch(error) {
+    if (error instanceof InvalidIdException) {
+      return response.badRequest(error.message);
+    } else {
       console.log(error);
-      return internalErrorResponse();
-    });
+      return response.internalServerError();
+    }
+  }
 };
 
 exports.createPost = function (_path, _queryString, body) {
-  const parameters = postValidator.validPost(body);
-  if (!parameters) {
-    return badRequestResponse();
-  }
-  return postRepository.createPost(parameters)
-    .then((result) => {
-      return {code: 201, body: result};
-    }).catch((error) => {
-      console.log('##### Exception caught at createPost: #####');
+  try {
+    const parameters = postValidator.validPost(body);
+    return postRepository.createPost(parameters)
+      .then((result) => {
+        return response.okCreated(result);
+      }).catch((error) => {
+        console.log(error);
+        return response.internalServerError();
+      });
+  } catch(error) {
+    if (error instanceof MissingRequiredFieldsException) {
+      return response.badRequest(error.message);
+    } else {
       console.log(error);
-      return internalErrorResponse();
-    });
+      return response.internalServerError();
+    }
+  }
 };
-
-function badRequestResponse() {
-  return {code: 400, body: {message: 'Invalid parameters' }};
-}
-
-function internalErrorResponse() {
-  return {code: 500, body: {message: 'Internal Server Error'}};
-}

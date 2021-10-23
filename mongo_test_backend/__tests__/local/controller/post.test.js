@@ -5,18 +5,6 @@ const postRepository = require('../../../repository/post.js');
 jest.mock('../../../repository/post.js');
 
 describe('findPostById', () => {
-  describe('when invalid parameters', () => {
-    test('returns bad request response', () => {
-      const id = 'abc123';
-      const input = `/post/${id}`;
-      const expectedResult = {code: 400, body: {message: 'Invalid parameters'}};
-
-      const result = postController.findPostById(input);
-
-      expect(result).toStrictEqual(expectedResult);
-    });
-  });
-
   describe('when post exists', () => {
     test('returns ok response', () => {
       const id = '60c4f8e061f566c252bd3ef4';
@@ -31,13 +19,25 @@ describe('findPostById', () => {
     });
   });
 
+  describe('when invalid parameters', () => {
+    test('returns bad request response', () => {
+      const id = 'abc123';
+      const input = `/post/${id}`;
+      const expectedResult = {code: 400, body: {message: 'Invalid ID'}};
+
+      const result = postController.findPostById(input);
+
+      expect(result).toStrictEqual(expectedResult);
+    });
+  });
+
   describe('when post does not exist', () => {
     test('returns not found response', () => {
       const id = '60c4f8e061f566c252bd3ef4';
       const input = `/post/${id}`;
       const mockResult = Promise.resolve(null);
       postRepository.findPostById.mockResolvedValue(mockResult);
-      const expectedResult = {code: 404, body: {message: 'Post not found'}};
+      const expectedResult = {code: 404, body: {message: 'Not Found'}};
 
       return postController.findPostById(input).then((result) => {
         expect(result).toStrictEqual(expectedResult);
@@ -61,10 +61,10 @@ describe('findPostById', () => {
 });
 
 describe('createPost', () => {
-  describe('when invalid parameters', () => {
+  describe('when missing required parameters', () => {
     test('returns bad request response', () => {
       const input = {'test': 'invalid'};
-      const expectedResult = {code: 400, body: {message: 'Invalid parameters'}};
+      const expectedResult = {code: 400, body: {message: 'Missing required fields'}};
 
       const result = postController.createPost(null, null, input);
 
