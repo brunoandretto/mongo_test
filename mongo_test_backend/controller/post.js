@@ -1,5 +1,5 @@
-const idValidator = require('./validators/id.js');
-const postValidator = require('./validators/post.js');
+const idValidator = require('./validator/id.js');
+const postValidator = require('./validator/post.js');
 const postRepository = require('../repository/post.js');
 
 exports.findPostById = function (path) {
