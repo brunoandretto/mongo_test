@@ -1,5 +1,5 @@
-const postController = require('../../../controllers/post.js');
-const postFixture = require('../fixtures/post.json');
+const postController = require('../../../controller/post.js');
+const postFixture = require('../fixture/post.json');
 const postRepository = require('../../../repository/post.js');
 
 jest.mock('../../../repository/post.js');

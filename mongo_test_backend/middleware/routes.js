@@ -1,4 +1,4 @@
-const controllers = require('../controllers');
+const controllers = require('../controller');
 
 const getRoutes = new Map([
   // Health Check

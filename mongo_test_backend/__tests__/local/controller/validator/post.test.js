@@ -1,4 +1,4 @@
-const postValidator = require('../../../../controllers/validators/post.js');
+const postValidator = require('../../../../controller/validator/post.js');
 
 describe('valid post', () => {
   beforeAll(() => {

@@ -1,6 +1,6 @@
 const bodyParser = require('koa-bodyparser');
 const Koa = require('koa');
-const routes = require('./middlewares/routes.js');
+const routes = require('./middleware/routes.js');
 
 const app = new Koa();
 app.use(bodyParser());
