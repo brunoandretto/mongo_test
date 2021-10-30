@@ -1,4 +1,5 @@
 const postValidator = require('../../../../controller/validator/post.js');
+const { MissingRequiredFieldsException } = require('../../../../exception.js');
 
 describe('valid post', () => {
   beforeAll(() => {
@@ -14,7 +15,7 @@ describe('valid post', () => {
       title: 'ok',
       short_description: 'ok',
       content: 'ok'
-    }
+    };
     const exptectedResponse = {
       title: 'ok',
       short_description: 'ok',
@@ -24,10 +25,10 @@ describe('valid post', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       deleted: false,
-    }
-  
+    };
+
     const result = postValidator.validPost(input);
-  
+
     expect(result).toStrictEqual(exptectedResponse);
   });
 });
@@ -37,32 +38,32 @@ describe('invalid post', () => {
     const input = {
       short_description: 'ok',
       content: 'ok'
-    }
-  
-    const result = postValidator.validPost(input);
-  
-    expect(result).toBe(false);
+    };
+
+    expect(() => {
+      postValidator.validPost(input);
+    }).toThrow(MissingRequiredFieldsException);
   });
-  
+
   test('returns false if missing short_description field', () => {
     const input = {
       title: 'ok',
       content: 'ok'
-    }
-  
-    const result = postValidator.validPost(input);
-  
-    expect(result).toBe(false);
+    };
+
+    expect(() => {
+      postValidator.validPost(input);
+    }).toThrow(MissingRequiredFieldsException);
   });
-  
+
   test('returns false if missing content field', () => {
     const input = {
       title: 'ok',
       short_description: 'ok'
-    }
-  
-    const result = postValidator.validPost(input);
-  
-    expect(result).toBe(false);
+    };
+
+    expect(() => {
+      postValidator.validPost(input);
+    }).toThrow(MissingRequiredFieldsException);
   });
 });
