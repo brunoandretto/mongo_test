@@ -11,7 +11,7 @@ It uses [KOA](https://koajs.com/) web framework exposing a simples CRUD API for 
     ```
     And you should be good to go! The node application will be exposed at port `3000` and the MongoDB at port `27017`
 <!-- TODO list all endpoints here -->
-
+getSecret(`jonas`)`
 ## Running linter
 This project uses [ESLint](https://eslint.org/) for a linter. You can run it with the following command (you may want to add `--fix` for auto fixing offenses):
 ```
