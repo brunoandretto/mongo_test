@@ -11,7 +11,7 @@ services:
       - mongo_test_db
     entrypoint: /app/scripts/entrypoint.sh
   mongo_test_db:
-    image: mongo
+    image: mongo:5
     ports:
       - 27017:27017
     volumes:

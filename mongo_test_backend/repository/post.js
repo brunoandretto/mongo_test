@@ -20,7 +20,7 @@ exports.createPost = function (attributes) {
       const posts = database.collection('posts');
       return posts.insertOne(attributes);
     })
-    .then((result) => {
-      return result['ops'][0];
+    .then(() => {
+      return attributes;
     });
 };
