@@ -8,6 +8,6 @@ exports.createUser = function (attributes) {
       return users.insertOne(attributes);
     })
     .then(() => {
-      return attributes
+      return attributes;
     });
 };

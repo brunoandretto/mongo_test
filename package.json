@@ -2,9 +2,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "seed": "node -r dotenv/config migrations/seed.js",
+    "seed": "node -r dotenv/config migrations/seed.js dotenv_config_path=.env.dev",
     "seed:test": "node -r dotenv/config migrations/seed.js dotenv_config_path=.env.test",
-    "start": "nodemon -r dotenv/config mongo_test_backend/app.js dotenv_config_path=.env.test",
+    "start": "nodemon -r dotenv/config mongo_test_backend/app.js dotenv_config_path=.env.dev",
     "test": "node -r dotenv/config $(which jest) local dotenv_config_path=.env.test"
   },
   "dependencies": {
