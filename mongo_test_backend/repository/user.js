@@ -7,7 +7,7 @@ exports.createUser = function (attributes) {
       const users = database.collection('users');
       return users.insertOne(attributes);
     })
-    .then((result) => {
-      return result['ops'][0];
+    .then(() => {
+      return attributes
     });
 };
