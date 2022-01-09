@@ -1,6 +1,6 @@
 const Database = require('./db.js');
 
-exports.createUser = function (attributes) {
+exports.createUser = function(attributes) {
   return Database.instance()
     .then((client) => {
       const database = client.db(Database.name);
