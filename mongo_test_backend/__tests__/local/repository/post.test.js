@@ -4,11 +4,15 @@ const Database = require('../../../repository/db.js');
 const DatabaseCleaner = require('../../../../jest_global_config/database_cleaner.js');
 const postRepository = require('../../../repository/post.js');
 
-describe('findPostById', () => {
-  beforeEach(async () => {
-    await DatabaseCleaner.dropCollections(Database);
-  });
+beforeEach(async () => {
+  await DatabaseCleaner.dropCollections(Database);
+});
 
+afterAll(async () => {
+  await Database.closeConnection();
+});
+
+describe('findPostById', () => {
   describe('when post exists', () => {
     test('returns object', () => {
       const id = '60c4f8e061f566c252bd3ef4';
@@ -47,10 +51,6 @@ describe('findPostById', () => {
 });
 
 describe('createPost', () => {
-  beforeEach(async () => {
-    await DatabaseCleaner.dropCollections(Database);
-  });
-
   test('returns created object', () => {
     const input = {
       'title': 'Test title',

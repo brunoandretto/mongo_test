@@ -1,3 +1,5 @@
+const { createIndexes } = require('../migrations/create_indexes');
+
 module.exports = class DatabaseCleaner {
   static dropCollections(Database) {
     let database;
@@ -15,8 +17,8 @@ module.exports = class DatabaseCleaner {
         });
         return Promise.all(promises);
       })
-      .catch((error) => {
-        console.log(`Could not delete collections: ${error}`);
+      .then(() => {
+        return createIndexes({ db: database });
       });
   }
 };
