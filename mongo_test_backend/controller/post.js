@@ -4,7 +4,7 @@ const postRepository = require('../repository/post.js');
 const response = require('./response.js');
 const { MissingRequiredFieldsException, InvalidIdException } = require('../exception.js');
 
-exports.findPostById = function (path) {
+exports.findPostById = function(path) {
   try {
     const id = path.split('/')[2].toLowerCase();
     idValidator.validObjectId(id);
@@ -28,7 +28,7 @@ exports.findPostById = function (path) {
   }
 };
 
-exports.createPost = function (_path, _queryString, body) {
+exports.createPost = function(_path, _queryString, body) {
   try {
     const parameters = postValidator.validPost(body);
     return postRepository.createPost(parameters)

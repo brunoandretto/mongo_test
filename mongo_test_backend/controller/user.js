@@ -4,7 +4,7 @@ const response = require('./response.js');
 
 const { MissingRequiredFieldsException, InvalidDateException } = require('../exception.js');
 
-exports.createUser = function (_path, _queryString, body) {
+exports.createUser = function(_path, _queryString, body) {
   try {
     const parameters = userValidator.validUser(body);
     return userRepository.createUser(parameters)

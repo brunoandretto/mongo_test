@@ -2,7 +2,7 @@ const { MissingRequiredFieldsException, InvalidDateException } = require('../../
 
 const MANDATORY_FIELDS = ['name', 'surname', 'document', 'birthDate'];
 
-exports.validUser = function (body) {
+exports.validUser = function(body) {
   let fields = (({ name, surname, document, birthDate }) => ({ name, surname, document, birthDate }))(body);
   if (!MANDATORY_FIELDS.every(key => fields[key])) {
     throw new MissingRequiredFieldsException();
